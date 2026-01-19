@@ -952,5 +952,16 @@ proc check_max_wire_length { max_wire_length use_default } {
   return $max_wire_length
 }
 
+proc resize_design { args } {
+  sta::parse_key_args "resize_design" args \
+   keys {-effort -max_utilization } flags {-verbose}
+
+   set effort [info exists keys(-effort)]
+   set max_utilization [info exists keys(-max_utilization)]
+   set verbose [info exists flags(-verbose)]
+
+   rsz::resize_design_cmd $effort $max_utilization $verbose
+}
+
 # namespace
 }

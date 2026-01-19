@@ -18,6 +18,7 @@ add_library(rsz_lib
     PreChecks.cc      
     RecoverPower.cc    
     RepairDesign.cc
+    ResizeDesign.cc
     RepairHold.cc
     RepairSetup.cc
     Rebuffer.cc

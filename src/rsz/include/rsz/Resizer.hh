@@ -111,6 +111,7 @@ class RepairDesign;
 class RepairSetup;
 class RepairHold;
 class Rebuffer;
+class ResizeDesign;
 class ResizerObserver;
 class ConcreteSwapArithModules;
 
@@ -490,6 +491,10 @@ class Resizer : public dbStaState, public dbNetworkObserver
   std::optional<Slack> resizeNetSlack(const dbNet* db_net);
 
   ////////////////////////////////////////////////////////////////
+  // Top-level resize command (Tcl/SWIG entrypoint).
+  void resizeDesign(double effort, double max_utilization, bool verbose);
+
+  ////////////////////////////////////////////////////////////////
   // API for logic resynthesis
   PinSet findFaninFanouts(PinSet& end_pins);
   PinSet findFanins(PinSet& end_pins);
@@ -802,6 +807,7 @@ class Resizer : public dbStaState, public dbNetworkObserver
   std::unique_ptr<RepairHold> repair_hold_;
   std::unique_ptr<ConcreteSwapArithModules> swap_arith_modules_;
   std::unique_ptr<Rebuffer> rebuffer_;
+  std::unique_ptr<ResizeDesign> resize_design_;
 
   // Layer RC per wire length indexed by layer->getNumber(), corner->index
   LibertyCellSet dont_use_;
@@ -922,6 +928,7 @@ class Resizer : public dbStaState, public dbNetworkObserver
   friend class RepairDesign;
   friend class RepairSetup;
   friend class RepairHold;
+  friend class ResizeDesign;
   friend class BaseMove;
   friend class BufferMove;
   friend class SizeDownMove;

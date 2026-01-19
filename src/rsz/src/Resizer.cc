@@ -34,6 +34,7 @@
 #include "RepairDesign.hh"
 #include "RepairHold.hh"
 #include "RepairSetup.hh"
+#include "ResizeDesign.hh"
 #include "ResizerObserver.hh"
 #include "SizeDownMove.hh"
 #include "SizeUpMove.hh"
@@ -189,11 +190,20 @@ Resizer::Resizer(Logger* logger,
   repair_setup_ = std::make_unique<RepairSetup>(this);
   repair_hold_ = std::make_unique<RepairHold>(this);
   rebuffer_ = std::make_unique<Rebuffer>(this);
+
+  resize_design_ = std::make_unique<ResizeDesign>(this);
 }
 
 Resizer::~Resizer() = default;
 
 ////////////////////////////////////////////////////////////////
+
+void Resizer::resizeDesign(const double effort,
+                           const double max_utilization,
+                           const bool verbose)
+{
+  resize_design_->resizeDesign(effort, max_utilization, verbose);
+}
 
 double Resizer::coreArea() const
 {
