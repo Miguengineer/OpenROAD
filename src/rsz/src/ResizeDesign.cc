@@ -20,6 +20,9 @@ void ResizeDesign::init()
   logger_ = resizer_->logger_;
   dbStaState::init(resizer_->sta_);
   db_network_ = resizer_->db_network_;
+  estimate_parasitics_ = resizer_->estimate_parasitics_;
+  parasitics_src_ = estimate_parasitics_->getParasiticsSrc();
+  initial_design_area_ = resizer_->computeDesignArea();
   initialized_ = true;
 }
 
@@ -30,16 +33,17 @@ void ResizeDesign::resizeDesign(const double effort,
   if (!initialized_) {
     init();
   }
-
-  // Sanity check inputs (Tcl interface already does some validation).
-  if (effort < 0.0) {
-    logger_->warn(RSZ, 2000, "resize_design: effort {} < 0; clamping to 0.0", effort);
+  
+  if (verbose_) {
+    // This should use logger messages, but for now let's just use std::cout
+    std::cout << "Resize design started" << std::endl;
+    std::cout << "Max utilization: " << max_utilization << std::endl;
+    std::cout << "Initial design area: " << initial_design_area_ << std::endl;
   }
+
   if (max_utilization < 0.0 || max_utilization > 1.0) {
-    logger_->error(RSZ,
-                   2001,
-                   "resize_design: max_utilization {} must be in [0.0, 1.0]",
-                   max_utilization);
+    std::cout << "Error: Max utilization must be between 0.0 and 1.0" << std::endl;
+    return;
   }
 
   // This component is currently a thin driver that reuses the existing repair

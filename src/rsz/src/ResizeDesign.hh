@@ -35,6 +35,11 @@ class ResizeDesign : dbStaState
   dbNetwork* db_network_ = nullptr;
   Resizer* resizer_ = nullptr;
   bool initialized_ = false;
+  est::EstimateParasitics* estimate_parasitics_ = nullptr;
+  double max_utilization_ = 1.0;
+  bool verbose_ = false;
+  double initial_design_area_ = 0.0;
+  est::ParasiticsSrc parasitics_src_ = est::ParasiticsSrc::none;
 };
 
 }  // namespace rsz

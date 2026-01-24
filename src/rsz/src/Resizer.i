@@ -741,7 +741,7 @@ insert_buffer_before_loads_cmd(Net *net,
   return inst;
 }
 
-void resize_design_cmd(double effort, double max_utilization, bool verbose)
+void resize_design(double effort, double max_utilization, bool verbose)
 {
   ensureLinked();
   Resizer *resizer = getResizer();

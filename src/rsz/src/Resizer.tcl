@@ -141,6 +141,26 @@ proc balance_row_usage { args } {
   rsz::balance_row_usage_cmd
 }
 
+sta::define_cmd_args "resize_design" { [-verbose] \
+                                       [-max_utilization max_utilization] }
+
+proc resize_design { args } {
+  sta::parse_key_args "resize_design" args \
+   keys { -max_utilization } flags { -verbose }
+
+  set verbose [info exists flags(-verbose)]
+  sta::check_argc_eq0 "resize_design" $args
+  set max_utilization [info exists keys(-max_utilization)]
+  if { $max_utilization } {
+    set max_utilization $keys(-max_utilization)
+  } else {
+    set max_utilization 1.0
+  }
+  
+  rsz::resize_design 1 $max_utilization $verbose
+  utl::report "Resize design completed."
+}
+
 sta::define_cmd_args "repair_design" {[-max_wire_length max_wire_length] \
                                       [-max_utilization util] \
                                       [-slew_margin slack_margin] \
@@ -952,16 +972,7 @@ proc check_max_wire_length { max_wire_length use_default } {
   return $max_wire_length
 }
 
-proc resize_design { args } {
-  sta::parse_key_args "resize_design" args \
-   keys {-effort -max_utilization } flags {-verbose}
 
-   set effort [info exists keys(-effort)]
-   set max_utilization [info exists keys(-max_utilization)]
-   set verbose [info exists flags(-verbose)]
-
-   rsz::resize_design_cmd $effort $max_utilization $verbose
-}
 
 # namespace
 }
