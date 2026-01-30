@@ -438,6 +438,8 @@ class Resizer : public dbStaState, public dbNetworkObserver
       double buffer_gain,
       bool match_cell_footprint,
       bool verbose);
+
+  void resizeDesign(double effort, double max_utilization, bool verbose);
   int repairDesignBufferCount() const;
   // for debugging
   void repairNet(Net* net,
@@ -489,10 +491,6 @@ class Resizer : public dbStaState, public dbNetworkObserver
   // Return net slack, if any (indicated by the bool).
   std::optional<Slack> resizeNetSlack(const Net* net);
   std::optional<Slack> resizeNetSlack(const dbNet* db_net);
-
-  ////////////////////////////////////////////////////////////////
-  // Top-level resize command (Tcl/SWIG entrypoint).
-  void resizeDesign(double effort, double max_utilization, bool verbose);
 
   ////////////////////////////////////////////////////////////////
   // API for logic resynthesis

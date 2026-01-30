@@ -30,7 +30,7 @@ class ResizeDesign : dbStaState
 
  protected:
   void init();
-
+  void resetSlews();
   Logger* logger_ = nullptr;
   dbNetwork* db_network_ = nullptr;
   Resizer* resizer_ = nullptr;
@@ -39,6 +39,9 @@ class ResizeDesign : dbStaState
   double max_utilization_ = 1.0;
   bool verbose_ = false;
   double initial_design_area_ = 0.0;
+  const MinMax* min_ = MinMax::min();
+  const MinMax* max_ = MinMax::max();
+  
   est::ParasiticsSrc parasitics_src_ = est::ParasiticsSrc::none;
 };
 

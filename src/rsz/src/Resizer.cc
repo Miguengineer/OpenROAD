@@ -202,6 +202,13 @@ void Resizer::resizeDesign(const double effort,
                            const double max_utilization,
                            const bool verbose)
 {
+  resizePreamble();
+  if (estimate_parasitics_->getParasiticsSrc()
+          == est::ParasiticsSrc::global_routing
+      || estimate_parasitics_->getParasiticsSrc()
+             == est::ParasiticsSrc::detailed_routing) {
+    opendp_->initMacrosAndGrid();
+  }
   resize_design_->resizeDesign(effort, max_utilization, verbose);
 }
 
@@ -4150,7 +4157,6 @@ bool Resizer::isFuncOneZero(const Pin* drvr_pin)
 }
 
 ////////////////////////////////////////////////////////////////
-
 void Resizer::repairDesign(double max_wire_length,
                            double slew_margin,
                            double cap_margin,
